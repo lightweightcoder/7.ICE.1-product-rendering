@@ -1,37 +1,72 @@
 import './styles.scss';
 import React from 'react';
 import { render } from 'react-dom';
-import data from './data.json';
 import moment from 'moment';
+import data from './data.json';
 
-const listEvenItems = data.items.filter((item) => 
-  item.id % 2 === 0
-);
+const listItems = data.items.map((item) => {
+  let isIdOdd = false;
+  let jsxForitem;
 
-listEvenItems.forEach(item => {
-  item.bgColor = 'even-color';
-})
+  // check if id is odd or even
+  if (item.id % 2 === 1) {
+    isIdOdd = true;
+  }
 
-const listOddItems = data.items.filter((item) => 
-  item.id % 2 !== 0
-);
+  if (isIdOdd) {
+    jsxForitem = (
+      <li className="odd-color" key={item.id.toString()}>
+        <p>
+          id:
+          {item.id}
+        </p>
+        <p>
+          name:
+          {item.name}
+        </p>
+        <p>
+          description:
+          {item.description}
+        </p>
+        <p>
+          createdAt:
+          {moment(item.createdAt).fromNow()}
+        </p>
+        <p>
+          updatedAt:
+          {moment(item.updatedAt).fromNow()}
+        </p>
+      </li>
+    );
+  } else {
+    jsxForitem = (
+      <li className="even-color" key={item.id.toString()}>
+        <p>
+          id:
+          {item.id}
+        </p>
+        <p>
+          name:
+          {item.name}
+        </p>
+        <p>
+          description:
+          {item.description}
+        </p>
+        <p>
+          createdAt:
+          {moment(item.createdAt).fromNow()}
+        </p>
+        <p>
+          updatedAt:
+          {moment(item.updatedAt).fromNow()}
+        </p>
+      </li>
+    );
+  }
 
-listOddItems.forEach(item => {
-  item.bgColor = 'odd-color';
-})
-
-const listItems = data.items.map((item, listOddItems) => 
-  <li className={item.bgColor} key={item.id.toString()}>
-    <p>id: {item.id}</p>
-    <p>name: {item.name}</p>
-    <p>description: {item.description}</p>
-    <p>createdAt: {moment(item.createdAt).fromNow()}</p>
-    <p>updatedAt: {moment(item.updatedAt).fromNow()}</p>
-  </li>
-);
-
-
-console.log('listOddItems', listOddItems);
+  return jsxForitem;
+});
 
 const myEl = (
   <div>
